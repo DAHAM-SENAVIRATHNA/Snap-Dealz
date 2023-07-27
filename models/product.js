@@ -2,7 +2,27 @@ const { json } = require('body-parser');
 const fs = require('fs');
 const path = require ('path');
 
-const products =[];
+// helper function for path construction 
+const p = path.join(path.dirname(process.mainModule.filename), 
+'data', 
+'products.json'
+);
+
+// Receive callback after read the file.
+const getProductsFromFile = (callback)=> {
+       
+        fs.readFile(p, (err, fileContent) =>{
+            if (err){
+                // pass empty array if hava a error
+                return callback([]);
+            }
+            // array with the data
+            else{
+                callback(JSON.parse(fileContent));
+            }
+        });
+    }
+
 
 // create a Product class
 module.exports = class Product{
@@ -12,33 +32,21 @@ module.exports = class Product{
     }
     // save products into a file
     save(){
-        const p = path.join(path.dirname(process.mainModule.filename), 
-        'data', 
-        'products.json'
-        );
-        fs.readFile(p,  (err, fileContent) =>{
-            let products = [];
-            if (!err){
-                products = JSON.parse(fileContent);
-            }
+       
+        getProductsFromFile(products => {
             products.push(this);
             fs.writeFile(p, JSON.stringify(products), err=>{
                 console.log(err);
-             });
-        });
-    }
-    // fetch all product to load in the page
-    static fetchAll(callback){
-        const p = path.join(path.dirname(process.mainModule.filename), 
-        'data', 
-        'products.json'
-        );
-        fs.readFile(p, (err, fileContent) =>{
-            if (err){
-                callback([]);
 
-            }
-            callback(JSON.parse(fileContent));
+            });    
         });
+        
     }
+   
+    // fetch all product to load in the page
+        
+    static fetchAll(callback){
+        getProductsFromFile(callback);
+        
+        }
 };
