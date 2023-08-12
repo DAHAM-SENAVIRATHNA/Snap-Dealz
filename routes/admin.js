@@ -12,7 +12,7 @@ const adminController = require('../controllers/admin');
 router.get('/add-product', adminController.getAddProducts);
 
 // /admin/Products => GET request
-router.get('/products');
+router.get('/products', adminController.getProducts);
 
 // /admin/add-product => POST
 router.post('/add-product', adminController.postAddProducts);

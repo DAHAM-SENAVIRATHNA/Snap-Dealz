@@ -11,7 +11,25 @@ exports.getAddProducts =(req, res, next) => {
   }
 
 exports.postAddProducts = (req, res, next) => {
-    const product = new Product(req.body.title);
+    const title = req.body.title;
+    const imageURL = req.body.imageURL;
+    const price = req.body.price;
+    const description = req.body.description;
+
+    const product = new Products(title, imageURL, price, description);
     product.save();
-    res.redirect('/');
+    res.redirect('/');S
   }
+
+// Admin page fetch all product list
+exports.getProducts = (req, res, next) =>{
+  Products.fetchAll(products => {
+    //render in view
+    res.render('admin/products', {
+      prods: products,
+      pageTitle: 'Admin Products',
+      path: '/admin/products',
+    
+    });
+  });
+};

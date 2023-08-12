@@ -35,13 +35,13 @@ body{
 }
 .main-header__item a{
     text-decoration: none;
-    color: black;
+    color: rgb(41, 11, 102);
 
 }
 .main-header__item a:hover,
 .main-header__item a:active,
 .main-header__item a.active {
-  color: #ffeb3b;
+  color: #ffffff;
 }
 main{
     padding: 1rem;
